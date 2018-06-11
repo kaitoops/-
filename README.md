@@ -1,45 +1,59 @@
-# -
-An error-tolerateable hash algorithm based on deep-learning and Monte-Carlo algorithm 
+# MATRIX CAPSULES EM-Tensorflow
 
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=plastic)](https://opensource.org/licenses/Apache-2.0)
+![completion](https://img.shields.io/badge/completion%20state-70%25-blue.svg?style=plastic)
 
+A Tensorflow implementation of CapsNet based on paper [Matrix Capsules with EM Routing](https://openreview.net/pdf?id=HJWLfGWRb)
 
-The MIT License (MIT)
+> **Status:**
+> 1. The code is working on MNIST with configuration:  A=32, B=4, C=4, D=4. The definitions of A-D can be referred to the paper.
+> 2. Some modification and optimization is implemented to prompt the numerical stability of GMM. Specific explanations can be found in the code.
+> 3. Each iteration of training takes around 0.7s on a GPU GTX 1080 and CPU i7-5820K CPU @ 3.30GHz.
 
-Copyright (c) <year> <copyright holders>
+> **To Do List:**
+> 1. The original configuration: A=B=C=D=32, is not supported on a Tesla P40 GPU, due to the limit of memory. Some optimization on implementation structure is required.
+> 2. Coordinate Addition technique is about to be implemented.
+> 3. Spread Loss is about to be implemented.
+> 4. Complete the test part on MNIST.
+> 5. Experiments on smallNORB as in paper is about to be casted.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sub license, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Any questions and comments to the code and the original algorithms are welcomed!!! My email: zhangsuofei at njupt.edu.cn
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+## Requirements
+- Python >= 3.4
+- Numpy
+- Tensorflow >= 1.2.0
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+## Usage
+**Step 1.**
+Clone this repository with ``git``.
 
-项目创意启动者：业郎正宗
+```
+$ git clone https://github.com/www0wwwjs1/Matrix-Capsules-EM-Tensorflow.git
+$ cd Matrix-Capsules-EM-Tensorflow
+```
 
-项目引用的合法免费代码库以及论文：Keras深度学习库
-                            geoffry hinton教授的capsule net 深度学习框架
-                            以及 Naturomics.liao 的 Matrix-Capsules-EM-Tensorflow 代码实现
-                            后续会继续添加
+**Step 2.**
+Download the [MNIST dataset](http://yann.lecun.com/exdb/mnist/), ``mv`` and extract it into ``data/mnist`` directory.(Be careful the backslash appeared around the curly braces when you copy the ``wget `` command to your terminal, remove it)
 
-此项目将开发一种专为区块链应用开发的基于深度神经网络和蒙特卡洛算法的可容错哈希算法，并基于MIT开源协议免费全球公开源代码与设计理念
+```
+$ mkdir -p data/mnist
+$ wget -c -P data/mnist http://yann.lecun.com/exdb/mnist/{train-images-idx3-ubyte.gz,train-labels-idx1-ubyte.gz,t10k-images-idx3-ubyte.gz,t10k-labels-idx1-ubyte.gz}
+$ gunzip data/mnist/*.gz
+```
 
+** Step 3.**
+Start the training:
+```
+$ python3 train.py
+```
 
+** Step 4.**
+View the status of training:
+```
+$ tensorboard --logdir=./logdir
+``` 
+Open a chrome browser, visit the site: http://127.0.1.1:6006/
 
-用于将每颗独一无二的祖母绿宝石忠实可信准确地映射到区块链网络上，此举将彻底贴近区块链技术对此种宝石商业性质的实现。具体实现过程如下
-
-将所映射宝石进行3d扫描之后提出数据，使用深度学习技术和蒙特卡洛算法对每颗宝石的数据进行可容错的映射，其映射时的解析度和容错率可由持有者在映射之初进行调控，最终映射出256位的独特编码。此编码具备高度防碰撞和容错性
-
-深度神经网络-蒙特卡洛哈希法伪代码
-
-data = 3d_Emerald 
-data.divide_by_matrix()
-data.concate.sum()
-model = initialize.model(data)
-model.initialize.mlp()
-Conv = keras.Convolution2d(model)
-hash_final = Monte-Carlo(Conv，256)
-
-
-
-
-最终映射出256位的独特编码,将对应每个独一无二的祖母绿宝石，可具备容错性地对现实世界中的祖母绿宝石进行高度可信的验证。
-
+### Reference
+- [naturomics/CapsNet-Tensorflow](https://github.com/naturomics/CapsNet-Tensorflow): the implementation of Hinton's paper [Dynamic Routing Between Capsules](https://arxiv.org/abs/1710.09829)
